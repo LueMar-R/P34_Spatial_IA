@@ -4,18 +4,22 @@ import time
 import pandas as pd
 
 class Lieu:
-    def distance(self, lieu1, lieu2):
+    def __init__(self, lieu1, lieu2):
+        self.lieu1 = lieu1
+        self.lieu2 = lieu2
         pass
 
 class Graph:
     def __init__(self, LARGEUR, HAUTEUR, NB_LIEUX):
-        self.LARGEUR = None
-        self.HAUTEUR = None
-        self.NB_LIEUX = None
+        self.LARGEUR = LARGEUR
+        self.HAUTEUR = HAUTEUR
+        self.NB_LIEUX = NB_LIEUX
         liste_lieux = []
 
     @classmethod
     def charger_graph(cls):
+        for self.NB_LIEUx:
+            pass
         pass
 
     @classmethod
