@@ -4,10 +4,11 @@ class Lieu:
     def __init__(self):
         return None
 
-    def definir(self, x, y):
+    def definir(self, nom, x, y):
+        nom = str(nom)
         x = float(x)
         y = float(y)
-        return {"x":x, "y":y}
+        return {"nom":nom, "x":x, "y":y}
 
     def calc_distance(self, lieu_1, lieu_2):
         x_1 = lieu_1["x"]
@@ -32,9 +33,10 @@ class Graph:
         nb_lieux = int(nb_lieux)
 
         for i in range(nb_lieux):
+            nom = "lieu " + str(i+1)
             x = random.uniform(0, largeur)
             y = random.uniform(0, hauteur)
-            lieu = Lieu().definir(x, y)
+            lieu = Lieu().definir(nom, x, y)
 
             liste_lieux.append(lieu)
 
@@ -47,7 +49,8 @@ class Graph:
             liste_lieux_2.remove(lieu)
             for lieu_2 in liste_lieux_2:
                 distance = Lieu().calc_distance(lieu, lieu_2)
-                matrice_distances.append(distance)
+                dict_distance = {"l1":lieu["nom"], "l2":lieu_2["nom"], "distance":distance}
+                matrice_distances.append(dict_distance)
         return matrice_distances
 
 
