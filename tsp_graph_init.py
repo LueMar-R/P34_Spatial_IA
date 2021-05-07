@@ -15,12 +15,12 @@ class Lieu:
 
 class Graph:
 
-    def __init__(self, largeur, hauteur, nb_lieux):
+    def __init__(self, largeur = 10, hauteur=10, nb_lieux=5):
         self.LARGEUR = largeur
         self.HAUTEUR = hauteur
         self.NB_LIEUX = nb_lieux
         self.liste_lieux = self.creer_liste_lieux()
-        self.matrice_od = self.calcul_matrice_cout_od
+        self.matrice_od = self.calcul_matrice_cout_od()
 
     def creer_liste_lieux(self):
         self.liste_lieux=[]
@@ -86,7 +86,6 @@ matrice_cout = tutu.calcul_matrice_cout_od()
 print(matrice_cout)
 
 voisin_1 = tutu.plus_proche_voisin(1, matrice_cout)
-voisin_2 = tutu.plus_proche_voisin(2, matrice_cout)
 print(voisin_1)
 print(voisin_2)
 
