@@ -47,11 +47,12 @@ class Graph:
     @classmethod
     def sauvegarder_graph(cls, liste_lieux, path):
         cls.df = pd.DataFrame(liste_lieux, columns =['x','y'])
-        df.to_csv(path)
+        cls.df.to_csv(path, index=False)
     
     @classmethod
     def charger_graph(cls, path):
-        return pd.read_csv(path)
+        cls.path = path
+        return pd.read_csv(cls.path)
 
 
 class Route:
@@ -73,6 +74,8 @@ voisin_2 = Graph.plus_proche_voisin(2, matrice_cout)
 print(voisin_1)
 print(voisin_2)
 
-df = Graph.sauvegarder_graph(l_lieux)
+Graph.sauvegarder_graph(l_lieux, "data.csv")
+
+df = Graph.charger_graph("data.csv")
 print(df)
 
