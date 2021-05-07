@@ -41,18 +41,18 @@ class Graph:
         
     @classmethod    
     def plus_proche_voisin(cls, lieu, matrice_od) :
-        print(matrice_od)
-        cls.le_plus_proche_voisin = np.min(matrice_od[lieu])
+        cls.le_plus_proche_voisin = np.argmin(matrice_od[lieu])
         return cls.le_plus_proche_voisin
 
-
     @classmethod
-    def charger_graph(cls):
-        pass
-
+    def sauvegarder_graph(cls, liste_lieux, path):
+        cls.df = pd.DataFrame(liste_lieux, columns =['x','y'])
+        df.to_csv(path)
+    
     @classmethod
-    def sauvegarder_graph(cls):
-        pass
+    def charger_graph(cls, path):
+        return pd.read_csv(path)
+
 
 class Route:
     def __init__(self):
@@ -72,3 +72,7 @@ voisin_1 = Graph.plus_proche_voisin(1, matrice_cout)
 voisin_2 = Graph.plus_proche_voisin(2, matrice_cout)
 print(voisin_1)
 print(voisin_2)
+
+df = Graph.sauvegarder_graph(l_lieux)
+print(df)
+
