@@ -63,7 +63,6 @@ class Graph:
         return cls.longueur
 
 
-
 class Route:
 
     @classmethod
@@ -78,6 +77,8 @@ class Route:
 
 class Affichage:
     pass
+
+
 
 
 tutu = Graph(6, 10, 4)
