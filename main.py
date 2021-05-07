@@ -1,11 +1,12 @@
 import tkinter.messagebox
 import tkinter as tk
+from tsp_graph_init import *
 
 class Application(tk.Tk):
 
     def __init__(self):
         tk.Tk.__init__(self)
-        self.geometry("1300x760")
+        self.geometry("1300x750")
         self.create_widget()
         self.v=tk.IntVar()
 
@@ -41,7 +42,30 @@ class Application(tk.Tk):
 
 
     def draw_graph(self, canvas):  #fonction qui dessine le graphe
-        canvas.create_rectangle((100, 100), (600, 600), outline="blue", width = 2)
+        #self.canvas.create_rectangle((10, 10), (790, 660), outline="blue", width = 2) #dessine l'air d'affichage des points
+
+
+        self.liste_lieux = Graph.creer_liste_lieux()
+
+        #dessin des routes entre les points, les routes sont dessiner avant pour qu'elle ne se dessine pas dans les ronds
+        for x in range(len(self.liste_lieux)):
+            try:
+                self.canvas.create_line((self.liste_lieux[x][0], self.liste_lieux[x][1]), ((self.liste_lieux[x+1][0]), (self.liste_lieux[x+1][1])), width = 1, fill = 'blue')
+            except IndexError:
+                self.canvas.create_line((self.liste_lieux[x][0], self.liste_lieux[x][1]), ((self.liste_lieux[0][0]), (self.liste_lieux[0][1])), width = 1, fill = 'blue')
+
+        #boucle for qui dessine les points et écrit le numéro à l'interieur        
+        for x in range(len(self.liste_lieux)):
+            if x == 0:
+                color = 'red'
+            else:
+                color = 'white'
+            self.canvas.create_oval((self.liste_lieux[x][0]-7, self.liste_lieux[x][1]-7), ((self.liste_lieux[x][0]+7), (self.liste_lieux[x][1]+7)), width = 1, fill = color)
+            self.canvas.create_text((self.liste_lieux[x][0], self.liste_lieux[x][1]),text=x)
+
+
+
+
 
 
 
