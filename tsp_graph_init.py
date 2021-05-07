@@ -53,10 +53,9 @@ class Graph:
         cls.le_plus_proche_voisin = np.argmin(matrice_od[lieu])
         return cls.le_plus_proche_voisin
 
-    @classmethod
-    def sauvegarder_graph(cls, liste_lieux, path):
-        cls.df = pd.DataFrame(liste_lieux, columns =['x','y'])
-        cls.df.to_csv(path, index=False)
+    def sauvegarder_graph(self, path):
+        self.df = pd.DataFrame(self.liste_lieux, columns =['x','y'])
+        self.df.to_csv(path, index=False)
     
     @classmethod
     def charger_graph(cls, path):
@@ -73,10 +72,6 @@ class Route:
         cls.ordre.extend(tmp)
         cls.ordre.append(0)
         return cls.ordre
-        
-
-class Affichage:
-    pass
 
 
 
@@ -88,10 +83,10 @@ print(graphe.liste_lieux)
 print("matrice des distances :")
 print(graphe.matrice_od)
 
-print("*"*20)
+print("*"*73)
 
 print("nombre de lieux :", graphe.NB_LIEUX, "ordre de visite :", graphe.ordre)
 
 print("distance totale :", graphe.distance)
 
-
+graphe.sauvegarder_graph("points.csv")
