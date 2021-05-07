@@ -51,16 +51,27 @@ class Graph:
     
     @classmethod
     def charger_graph(cls, path):
-        cls.path = path
-        return pd.read_csv(cls.path)
+        return pd.read_csv(path).values
 
 
 class Route:
-    def __init__(self):
-        pass
+
+    @classmethod
+    def def_ordre(cls, NB_LIEUX):
+        cls.ordre = [0]
+        tmp = [i for i in range(1,NB_LIEUX)]
+        random.shuffle(tmp)
+        cls.ordre.extend(tmp)
+        cls.ordre.append(0)
+        return cls.ordre
+        
 
 class Affichage:
     pass
+
+
+
+
 
 
 l_lieux = Graph.creer_liste_lieux()
@@ -74,8 +85,5 @@ voisin_2 = Graph.plus_proche_voisin(2, matrice_cout)
 print(voisin_1)
 print(voisin_2)
 
-Graph.sauvegarder_graph(l_lieux, "data.csv")
-
-df = Graph.charger_graph("data.csv")
-print(df)
-
+ordre_1 =  Route.def_ordre(8)
+print(ordre_1)
