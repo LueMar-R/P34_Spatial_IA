@@ -15,8 +15,8 @@ class Lieu:
         x_2 = lieu_2["x"]
         y_2 = lieu_2["y"]
 
-        distance_x = abs(x_1 - x_2)
-        distance_y = abs(y_1 - y_2)
+        distance_x = x_1 - x_2
+        distance_y = y_1 - y_2
         distance = (distance_x ** 2 + distance_y ** 2) ** 0.5
         return distance
 
@@ -39,5 +39,18 @@ class Graph:
             liste_lieux.append(lieu)
 
         return liste_lieux
+    
+    def calcul_matrice_cout_od(self, liste_lieux):
+        liste_lieux_2 = liste_lieux.copy()
+        matrice_distances = []
+        for lieu in liste_lieux:
+            liste_lieux_2.remove(lieu)
+            for lieu_2 in liste_lieux_2:
+                distance = Lieu().calc_distance(lieu, lieu_2)
+                matrice_distances.append(distance)
+        return matrice_distances
 
-print(Graph().liste_lieux(10, 20, 3))
+
+liste_lieux = Graph().liste_lieux(10, 20, 4)
+matrice_distances = Graph().calcul_matrice_cout_od(liste_lieux)
+print(matrice_distances)
