@@ -55,13 +55,12 @@ class Graph:
         return pd.read_csv(path).values
 
     @classmethod
-    def calcul_distance_route(cls, matrice_od:
-        cls.route = Route.def_ordre(len(matrice_od))
-        longueur = 0
-        for i in range(len(cls.route-1)):
-            longueur += matrice_od[route[i],route[i+1]]
-        print longueur
-        return(longueur)
+    def calcul_distance_route(cls, matrice_od, route) :
+        cls.longueur = 0
+        for i in range(len(route)-1):
+            cls.longueur += matrice_od[route[i],route[i+1]]
+            print(cls.longueur)
+        return cls.longueur
 
 
 
@@ -91,5 +90,8 @@ voisin_2 = tutu.plus_proche_voisin(2, matrice_cout)
 print(voisin_1)
 print(voisin_2)
 
-ordre_1 =  Route.def_ordre(4)
-print(ordre_1)
+route = Route.def_ordre(len(matrice_cout))
+print(route)
+
+longueur = tutu.calcul_distance_route(matrice_cout, route)
+print(longueur)
