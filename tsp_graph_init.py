@@ -15,12 +15,14 @@ class Lieu:
 
 class Graph:
 
-    def __init__(self, largeur = 10, hauteur=10, nb_lieux=5):
+    def __init__(self, largeur=10, hauteur=10, nb_lieux=5):
         self.LARGEUR = largeur
         self.HAUTEUR = hauteur
         self.NB_LIEUX = nb_lieux
         self.liste_lieux = self.creer_liste_lieux()
         self.matrice_od = self.calcul_matrice_cout_od()
+        self.ordre = Route.def_ordre(self.NB_LIEUX)
+        self.distance = self.calcul_distance_route()
 
     def creer_liste_lieux(self):
         self.liste_lieux=[]
@@ -39,7 +41,13 @@ class Graph:
                 if i != j:
                     self.matrice_od[i,j] = Lieu.distance(self.liste_lieux[i], self.liste_lieux[j])
         return self.matrice_od
-        
+    
+    def calcul_distance_route(self) :
+        self.distance = 0
+        for i in range(len(self.ordre)-1):
+            self.distance += self.matrice_od[self.ordre[i],self.ordre[i+1]]
+        return self.distance
+
     @classmethod    
     def plus_proche_voisin(cls, lieu, matrice_od) :
         cls.le_plus_proche_voisin = np.argmin(matrice_od[lieu])
@@ -54,20 +62,13 @@ class Graph:
     def charger_graph(cls, path):
         return pd.read_csv(path).values
 
-    @classmethod
-    def calcul_distance_route(cls, matrice_od, route) :
-        cls.longueur = 0
-        for i in range(len(route)-1):
-            cls.longueur += matrice_od[route[i],route[i+1]]
-        return cls.longueur
-
 
 class Route:
-
+    
     @classmethod
-    def def_ordre(cls, NB_LIEUX):
+    def def_ordre(cls, nb_lieux):
         cls.ordre = [0]
-        tmp = [i for i in range(1,NB_LIEUX)]
+        tmp = [i for i in range(1,nb_lieux)]
         random.shuffle(tmp)
         cls.ordre.extend(tmp)
         cls.ordre.append(0)
@@ -80,17 +81,17 @@ class Affichage:
 
 
 
-tutu = Graph(6, 10, 4)
+graphe = Graph(12, 12, 8)
 
-matrice_cout = tutu.calcul_matrice_cout_od()
-print(matrice_cout)
+print("liste des lieux à visiter :")
+print(graphe.liste_lieux)
+print("matrice des distances :")
+print(graphe.matrice_od)
 
-voisin_1 = tutu.plus_proche_voisin(1, matrice_cout)
-print(voisin_1)
-print(voisin_2)
+print("*"*20)
 
-route = Route.def_ordre(len(matrice_cout))
-print(route)
+print("nombre de lieux :", graphe.NB_LIEUX, "ordre de visite :", graphe.ordre)
 
-longueur = tutu.calcul_distance_route(matrice_cout, route)
-print(longueur)
+print("distance totale :", graphe.distance)
+
+
