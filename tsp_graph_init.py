@@ -15,29 +15,30 @@ class Lieu:
 
 class Graph:
 
-    @classmethod
-    def creer_liste_lieux(cls):
-        cls.LARGEUR = 6
-        cls.HAUTEUR = 10
-        cls.NB_LIEUX = 4
-        cls.liste_lieux = []
-        for i in range(cls.NB_LIEUX):
-            x = random.uniform(0, cls.LARGEUR)
-            y = random.uniform(0, cls.HAUTEUR)
-            cls.liste_lieux.append([x,y])
-        return cls.liste_lieux
+    def __init__(self, largeur, hauteur, nb_lieux):
+        self.LARGEUR = 6
+        self.HAUTEUR = 10
+        self.NB_LIEUX = 4
+        self.liste_lieux = self.creer_liste_lieux()
+        self.matrice_od = self.calcul_matrice_cout_od
 
-    @classmethod
-    def calcul_matrice_cout_od(cls, liste_lieux):
-        cls.LEN = len(liste_lieux)
-        cls.matrice_od = np.zeros((cls.LEN, cls.LEN))
-        for i in range(cls.LEN):
-            for j in range(cls.LEN):
+    def creer_liste_lieux(self):
+        self.liste_lieux=[]
+        for i in range(self.NB_LIEUX):
+            x = random.uniform(0, self.LARGEUR)
+            y = random.uniform(0, self.HAUTEUR)
+            self.liste_lieux.append([x,y])
+        return self.liste_lieux
+
+    def calcul_matrice_cout_od(self):
+        self.matrice_od = np.zeros((self.NB_LIEUX, self.NB_LIEUX))
+        for i in range(self.NB_LIEUX):
+            for j in range(self.NB_LIEUX):
                 if i == j:
-                    cls.matrice_od[i,j] = np.inf
+                    self.matrice_od[i,j] = np.inf
                 if i != j:
-                    cls.matrice_od[i,j] = Lieu.distance(liste_lieux[i], liste_lieux[j])
-        return cls.matrice_od
+                    self.matrice_od[i,j] = Lieu.distance(self.liste_lieux[i], self.liste_lieux[j])
+        return self.matrice_od
         
     @classmethod    
     def plus_proche_voisin(cls, lieu, matrice_od) :
@@ -52,6 +53,16 @@ class Graph:
     @classmethod
     def charger_graph(cls, path):
         return pd.read_csv(path).values
+
+    @classmethod
+    def calcul_distance_route(cls, matrice_od:
+        cls.route = Route.def_ordre(len(matrice_od))
+        longueur = 0
+        for i in range(len(cls.route-1)):
+            longueur += matrice_od[route[i],route[i+1]]
+        print longueur
+        return(longueur)
+
 
 
 class Route:
@@ -70,20 +81,15 @@ class Affichage:
     pass
 
 
+tutu = Graph(6, 10, 4)
 
-
-
-
-l_lieux = Graph.creer_liste_lieux()
-print(l_lieux)
-
-matrice_cout = Graph.calcul_matrice_cout_od(l_lieux)
+matrice_cout = tutu.calcul_matrice_cout_od()
 print(matrice_cout)
 
-voisin_1 = Graph.plus_proche_voisin(1, matrice_cout)
-voisin_2 = Graph.plus_proche_voisin(2, matrice_cout)
+voisin_1 = tutu.plus_proche_voisin(1, matrice_cout)
+voisin_2 = tutu.plus_proche_voisin(2, matrice_cout)
 print(voisin_1)
 print(voisin_2)
 
-ordre_1 =  Route.def_ordre(8)
+ordre_1 =  Route.def_ordre(4)
 print(ordre_1)
