@@ -74,19 +74,21 @@ class Route:
         return cls.ordre
 
 
+def main():
 
+    graphe = Graph(12, 12, 8)
 
-graphe = Graph(12, 12, 8)
+    print("liste des lieux à visiter :")
+    print(graphe.liste_lieux)
+    print("matrice des distances :")
+    print(graphe.matrice_od)
 
-print("liste des lieux à visiter :")
-print(graphe.liste_lieux)
-print("matrice des distances :")
-print(graphe.matrice_od)
+    print("*"*73)
 
-print("*"*73)
+    print("nombre de lieux :", graphe.NB_LIEUX, "ordre de visite :", graphe.ordre)
 
-print("nombre de lieux :", graphe.NB_LIEUX, "ordre de visite :", graphe.ordre)
+    print("distance totale :", graphe.distance)
 
-print("distance totale :", graphe.distance)
+    graphe.sauvegarder_graph("points.csv")
 
-graphe.sauvegarder_graph("points.csv")
+main()
