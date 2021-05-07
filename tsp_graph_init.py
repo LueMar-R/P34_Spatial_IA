@@ -16,9 +16,9 @@ class Lieu:
 class Graph:
 
     def __init__(self, largeur, hauteur, nb_lieux):
-        self.LARGEUR = 6
-        self.HAUTEUR = 10
-        self.NB_LIEUX = 4
+        self.LARGEUR = largeur
+        self.HAUTEUR = hauteur
+        self.NB_LIEUX = nb_lieux
         self.liste_lieux = self.creer_liste_lieux()
         self.matrice_od = self.calcul_matrice_cout_od
 
@@ -59,7 +59,6 @@ class Graph:
         cls.longueur = 0
         for i in range(len(route)-1):
             cls.longueur += matrice_od[route[i],route[i+1]]
-            print(cls.longueur)
         return cls.longueur
 
 
