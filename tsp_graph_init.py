@@ -59,8 +59,8 @@ class Graph:
         for i in range(len(self.ordre)-1):
             self.distance += self.matrice_od[self.ordre[i],self.ordre[i+1]]
         return self.distance
-
-    @classmethod    
+    
+    @classmethod
     def plus_proche_voisin(cls, lieu, matrice_od) :
         cls.le_plus_proche_voisin = np.argmin(matrice_od[lieu])
         return cls.le_plus_proche_voisin
@@ -84,10 +84,40 @@ class Route:
         cls.ordre.extend(tmp)
         cls.ordre.append(0)
         return cls.ordre
-  
+
+
+class TSP_SA:
+
+    def __init__(self, largeur, hauteur, nb_lieux):
+        self.graphe = Graph(largeur, hauteur, nb_lieux)
+        self.chemin_zero = self.heuristique()
+
+
+    def heuristique(self):
+        print("HEURISTIQUE")
+        local_matrix = self.graphe.matrice_od
+        local_places_list = self.graphe.liste_lieux
+        route_naive = [local_places_list[0]]
+        for i in range(self.graphe.NB_LIEUX):
+            print(route_naive)
+            last_point = local_places_list.index(route_naive[-1])
+            print(">>", last_point)
+            plus_proche = self.graphe.plus_proche_voisin(last_point, local_matrix)
+            print(local_matrix)
+            local_matrix = np.delete(local_matrix, plus_proche, 0)
+            local_matrix = np.delete(local_matrix, plus_proche, 1)
+            route_naive.append(local_places_list[plus_proche])
+            print(local_matrix)
+            local_places_list.pop(last_point)
+            print([(lieu.x, lieu.y) for lieu in route_naive])
+        return route_naive
+
+
+
+
+
 
 def generer(name, l, h, np):
-
 
     graphe = Graph(l, h, np)
 
@@ -104,8 +134,21 @@ def generer(name, l, h, np):
 
     graphe.sauvegarder_graph(f"{name}.csv")
 
-generer("points", 10, 50, 8)
+def test(l, h, np):
+    algo = TSP_SA(l, h, np)
+    
+    print("**route de départ**", algo.chemin_zero)
+
+
+test(10,10,5)
+#generer("points", 10, 10, 5)
 
 # if __name__ == "__main__":
 #     import sys
 #     generer(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
+
+
+
+
+
+## permutations dans une route : voir algo 2opt
