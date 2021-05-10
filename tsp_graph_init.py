@@ -4,38 +4,97 @@ import time
 import pandas as pd
 
 class Lieu:
-    def __init__(self, lieu1, lieu2):
-        self.lieu1 = lieu1
-        self.lieu2 = lieu2
-        pass
+
+    @classmethod
+    def def_lieu(cls, x, y):
+        return (float(x), float(y))
+
+    @classmethod
+    def distance(cls, lieu1, lieu2):
+        return np.sqrt((lieu1[0]-lieu2[0])**2 + (lieu1[1]-lieu2[1])**2)
+
 
 class Graph:
-    def __init__(self, LARGEUR, HAUTEUR, NB_LIEUX):
-        self.LARGEUR = LARGEUR
-        self.HAUTEUR = HAUTEUR
-        self.NB_LIEUX = NB_LIEUX
-        liste_lieux = []
 
-    @classmethod
-    def charger_graph(cls):
-        for self.NB_LIEUx:
-            pass
-        pass
+    def __init__(self, largeur = 10, hauteur=10, nb_lieux=5):
+        self.LARGEUR = largeur
+        self.HAUTEUR = hauteur
+        self.NB_LIEUX = nb_lieux
+        self.liste_lieux = self.creer_liste_lieux()
+        self.matrice_od = self.calcul_matrice_cout_od()
 
-    @classmethod
-    def sauvegarder_graph(cls):
-        pass
+    def creer_liste_lieux(self):
+        self.liste_lieux=[]
+        for i in range(self.NB_LIEUX):
+            x = random.uniform(0, self.LARGEUR)
+            y = random.uniform(0, self.HAUTEUR)
+            self.liste_lieux.append([x,y])
+        return self.liste_lieux
 
     def calcul_matrice_cout_od(self):
-        matrice_od = null
-        pass
+        self.matrice_od = np.zeros((self.NB_LIEUX, self.NB_LIEUX))
+        for i in range(self.NB_LIEUX):
+            for j in range(self.NB_LIEUX):
+                if i == j:
+                    self.matrice_od[i,j] = np.inf
+                if i != j:
+                    self.matrice_od[i,j] = Lieu.distance(self.liste_lieux[i], self.liste_lieux[j])
+        return self.matrice_od
+        
+    @classmethod
+    def plus_proche_voisin(cls, lieu, matrice_od) :
+        cls.le_plus_proche_voisin = np.argmin(matrice_od[lieu])
+        return cls.le_plus_proche_voisin
+
+    @classmethod
+    def sauvegarder_graph(cls, liste_lieux, path):
+        cls.df = pd.DataFrame(liste_lieux, columns =['x','y'])
+        cls.df.to_csv(path, index=False)
     
-    def plus_proche_voisin(self) :
-        pass
+    @classmethod
+    def charger_graph(cls, path):
+        return pd.read_csv(path).values
+
+    @classmethod
+    def calcul_distance_route(cls, matrice_od, route) :
+        cls.longueur = 0
+        for i in range(len(route)-1):
+            cls.longueur += matrice_od[route[i],route[i+1]]
+        return cls.longueur
+
 
 class Route:
-    def __init__(self):
-        pass
 
-class Affichage:
-    pass
+    @classmethod
+    def def_ordre(cls, NB_LIEUX):
+        cls.ordre = [0]
+        tmp = [i for i in range(1,NB_LIEUX)]
+        random.shuffle(tmp)
+        cls.ordre.extend(tmp)
+        cls.ordre.append(0)
+        return cls.ordre
+        
+
+class TSP_SA:
+
+    @classmethod
+    def test(cls, liste_lieux):
+        for lieux in liste_lieux:
+            pass
+
+
+
+
+tutu = Graph(6, 10, 4)
+
+matrice_cout = tutu.calcul_matrice_cout_od()
+print(matrice_cout)
+
+voisin_1 = tutu.plus_proche_voisin(1, matrice_cout)
+print(voisin_1)
+
+route = Route.def_ordre(len(matrice_cout))
+print(route)
+
+longueur = tutu.calcul_distance_route(matrice_cout, route)
+print(longueur)
