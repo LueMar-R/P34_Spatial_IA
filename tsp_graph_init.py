@@ -75,13 +75,6 @@ class Route:
         return cls.ordre
         
 
-class TSP_SA:
-
-    @classmethod
-    def test(cls, liste_lieux):
-        for lieux in liste_lieux:
-            pass
-
 
 
 
