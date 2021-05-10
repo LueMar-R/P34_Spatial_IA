@@ -5,20 +5,21 @@ class Route:
 
     def __init__(self, graph):
     
-# Cette fonction renvoie le plus court chemin dans le graphe passant par tous les noeuds.
+# Cette fonction renvoie le plus court chemin dans le graphe passant par tous les nœuds.
 def voyageurCommerce(graph, codeSource) :
 
     # Nous stockons le meilleur chemin ici
     meilleureLongueur = float("inf")
     meilleurChemin = None
 
-    # Ainsi, la fonction prend en argument les noeuds qui ne sont pas encore visités, le graphe et une position courante.
+    # Ainsi, la fonction prend en argument les nœuds qui ne sont pas encore visités, le graphe et une position courante.
     # De plus, on se souvient du chemin actuellement traversé et du poids associé
-    # En fait, on effectue une recherche en profondeur et on étudie la longueur du chemin s'il contient tous les noeuds.
+    # En fait, on effectue une recherche en profondeur et on étudie la longueur du chemin s'il contient tous les nœuds.
     def exhaustive(noeudsRestants, noeudActuel, cheminActuel, longueurActuelle, graph) :
         
-        # Si aucun noeud ne reste, nous avons un chemin comprenant tous les noeuds.
-        # Nous l'enregistrons comme le meilleur chemin s'il est meilleur que le meilleur chemin actuel.
+        # S'il reste des nœuds, nous effectuons une recherche en profondeur.
+        # Nous augmentons le chemin et sa longueur dans l'appel récursif.
+        # Évidemment, nous ne considérons que les nœuds qui sont accessibles.
         if not noeudsRestants :
             print("Chemin Hamiltonien trouvé", repr(cheminActuel), "de taille", longueurActuelle)
             nonlocal meilleureLongueur, meilleurChemin
@@ -26,9 +27,9 @@ def voyageurCommerce(graph, codeSource) :
                 meilleureLongueur = longueurActuelle
                 meilleurChemin = cheminActuel
         
-        # S'il reste des noeuds, nous effectuons une recherche en profondeur.
+        # S'il reste des nœuds, nous effectuons une recherche en profondeur.
         # Nous augmentons le chemin et sa longueur dans l'appel récursif.
-        # Évidemment, nous ne considérons que les noeuds qui sont accessibles.
+        # Évidemment, nous ne considérons que les nœuds qui sont accessibles.
         else :
             for neighbor, weight in graph[currentNode] :
                 if neighbor in remainingNodes :
