@@ -29,11 +29,11 @@ class Graph:
             for j in self.liste_lieux:
                 Graph.matrice_od.append({'LieuA' : i, 'LieuB' : j, 'Distance' : i.distance(j) })
 
-    def plus_proche_voisin(self, L, reste = self.liste_lieux):
+    def plus_proche_voisin(self, L, reste = Graph.matrice_od):
         """renvoyer le plus proche voisin d'un lieu"""
-        voisins = Graph.matrice_od[Graph.matrice_od['LieuA'] == L]
+        voisins = reste[reste['LieuA'] != L]
         ligne_proche = voisins[voisins['Distance'] == voisins['Distance'].min()]
-        return Lieu.Lieu.dLieux[ligne_proche['LieuB']]
+        return ligne_proche['LieuB']
     
     def charger_graph(self, fichier):
         df = pandas.read_csv(fichier)
