@@ -15,7 +15,10 @@ class Graph:
         l_lieux = []
 
         for i in range(nb_l):
-            l_lieux.append(Lieu.Lieu(random.randint(0, l), random.randint(0, h)))
+            n = Lieu.Lieu(random.randint(0, l), random.randint(0, h))
+            while n in l_lieux:
+                n = Lieu.Lieu(random.randint(0, l), random.randint(0, h))
+            l_lieux.append(n)
         self.liste_lieux = numpy.array(l_lieux)
 
     def __repr__(self):
