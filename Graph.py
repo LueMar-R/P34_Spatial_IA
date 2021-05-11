@@ -12,28 +12,30 @@ class Graph:
         self.LARGEUR = l
         self.HAUTEUR = h
         self.NB_LIEUX = nb_l
-        self.liste_lieux = numpy.empty((0, nb_l))
+        l_lieux = []
 
-        for i in range(0, nb_l - 1):
-            self.liste_lieux[i] = Lieu.Lieu(random.randint(0, l), random.randint(0, h))
+        for i in range(nb_l):
+            l_lieux.append(Lieu.Lieu(random.randint(0, l), random.randint(0, h)))
+        self.liste_lieux = numpy.array(l_lieux)
 
     def __repr__(self):
         return "<Graph : nombre de lieu = {}, largeur = {}, hauteur = {}>".format(self.NB_LIEUX, self.LARGEUR, self.HAUTEUR)
 
     def __str__(self):
-        return "Nombre de lieu = {}, Largeur = {}, Hauteur = {}\n{}".format(self.NB_LIEUX, self.LARGEUR, self.HAUTEUR, self.liste_lieux)
+        return "Graph : Nombre de lieu = {}, Largeur = {}, Hauteur = {}\n{}".format(self.NB_LIEUX, self.LARGEUR, self.HAUTEUR, self.liste_lieux)
     
     def calcul_matrice_cout_od(self):
         """calculer une matrice de distances entre chaque lieu du graphe"""
         for i in self.liste_lieux:
             for j in self.liste_lieux:
-                Graph.matrice_od.append({'LieuA' : i, 'LieuB' : j, 'Distance' : i.distance(j) })
+                if(i != j) :
+                    Graph.matrice_od = Graph.matrice_od.append({'LieuA' : i, 'LieuB' : j, 'Distance' : i.distance(j) }, ignore_index=True)
 
-    def plus_proche_voisin(self, L, reste = matrice_od):
+    def plus_proche_voisin(self, L, reste):
         """renvoyer le plus proche voisin d'un lieu"""
-        voisins = reste[reste['LieuA'] != L]
+        voisins = reste[reste['LieuA'] == L]
         ligne_proche = voisins[voisins['Distance'] == voisins['Distance'].min()]
-        return ligne_proche['LieuB']
+        return ligne_proche.iat[0, 1]
     
     def charger_graph(self, fichier):
         df = pandas.read_csv(fichier)
@@ -47,16 +49,16 @@ if __name__ == "__main__":
     lt = 20
     ht = 20
     nb = 5
-
     gt = Graph(nb, lt, ht)
 
-    print(gt)
+    print("graph = {}\n".format(gt))
 
+
+    gt.calcul_matrice_cout_od()
+
+    print("Matrice = {}\n".format(Graph.matrice_od))
     
 
-    pt1 = Lieu(xt1, yt1)
-
-    print("{}".format(pt1))
-
-    plt.plot(pt1.x, pt1.y, marker="o", color="blue")
-    plt.show()
+    pt1 = Graph.matrice_od.iat[0, 0]
+    pt2 = gt.plus_proche_voisin(pt1, Graph.matrice_od)
+    print("Le lieu de plus proche de {} est {}\n".format(pt1, pt2))
