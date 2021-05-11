@@ -3,15 +3,6 @@ import random
 import time
 import pandas as pd
 
-"""pour appeler la fonction "generer" via l'invite de commande : 
-    $ python tsp_graph_init.py name l w np
-
-    Args:
-        name (str): nom du fichier csv qui sera généré
-        l (int): largeur de l'espace 
-        h (int): hauteur de l'espace
-        np (int): nombre de points
-"""
 
 class Lieu:
 
@@ -32,8 +23,10 @@ class Graph:
         self.NB_LIEUX = nb_lieux
         self.liste_lieux = self.creer_liste_lieux()
         self.matrice_od = self.calcul_matrice_cout_od()
-        self.ordre = Route.def_ordre(self.NB_LIEUX)
-        self.distance = self.calcul_distance_route()
+        self.ordre_aleatoire = Route.def_ordre(self.NB_LIEUX)
+        self.distance = Route.calcul_distance_route(self.ordre_aleatoire, self.matrice_od)
+        print("lalala", self.distance)
+
 
     def creer_liste_lieux(self):
         self.liste_lieux=[]
@@ -53,12 +46,6 @@ class Graph:
                 if i != j:
                     self.matrice_od[i,j] = Lieu.distance(self.liste_lieux[i], self.liste_lieux[j])
         return self.matrice_od
-    
-    def calcul_distance_route(self) :
-        self.distance = 0
-        for i in range(len(self.ordre)-1):
-            self.distance += self.matrice_od[self.ordre[i],self.ordre[i+1]]
-        return self.distance
     
     @classmethod
     def plus_proche_voisin(cls, lieu, matrice_od) :
@@ -85,36 +72,12 @@ class Route:
         cls.ordre.append(0)
         return cls.ordre
 
-
-class TSP_SA:
-
-    def __init__(self, largeur, hauteur, nb_lieux):
-        self.graphe = Graph(largeur, hauteur, nb_lieux)
-        self.chemin_zero = self.heuristique()
-
-
-    def heuristique(self):
-        print("HEURISTIQUE")
-        local_matrix = self.graphe.matrice_od
-        local_places_list = self.graphe.liste_lieux
-        route_naive = [local_places_list[0]]
-        for i in range(self.graphe.NB_LIEUX):
-            print(route_naive)
-            last_point = local_places_list.index(route_naive[-1])
-            print(">>", last_point)
-            plus_proche = self.graphe.plus_proche_voisin(last_point, local_matrix)
-            print(local_matrix)
-            local_matrix = np.delete(local_matrix, plus_proche, 0)
-            local_matrix = np.delete(local_matrix, plus_proche, 1)
-            route_naive.append(local_places_list[plus_proche])
-            print(local_matrix)
-            local_places_list.pop(last_point)
-            print([(lieu.x, lieu.y) for lieu in route_naive])
-        return route_naive
-
-
-
-
+    @classmethod
+    def calcul_distance_route(cls, ordre, matrice_od) :
+        cls.distance = 0
+        for i in range(len(ordre)-1):
+            cls.distance += matrice_od[ordre[i],ordre[i+1]]
+        return cls.distance
 
 
 def generer(name, l, h, np):
@@ -128,27 +91,31 @@ def generer(name, l, h, np):
 
     print("*"*65)
 
-    print("nombre de lieux :", graphe.NB_LIEUX, "__ ordre de visite :", graphe.ordre)
+    print("nombre de lieux :", graphe.NB_LIEUX, "__ ordre de visite aléatoire :", graphe.ordre_aleatoire)
 
     print("distance totale :", graphe.distance)
 
     graphe.sauvegarder_graph(f"{name}.csv")
 
-def test(l, h, np):
-    algo = TSP_SA(l, h, np)
-    
-    print("**route de départ**", algo.chemin_zero)
 
-
-test(10,10,5)
 #generer("points", 10, 10, 5)
+
+
+
+
 
 # if __name__ == "__main__":
 #     import sys
 #     generer(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
 
 
+# """pour appeler la fonction "generer" via l'invite de commande : 
+#     $ python tsp_graph_init.py name l w np
 
+#     Args:
+#         name (str): nom du fichier csv qui sera généré
+#         l (int): largeur de l'espace 
+#         h (int): hauteur de l'espace
+#         np (int): nombre de points
+# """
 
-
-## permutations dans une route : voir algo 2opt
