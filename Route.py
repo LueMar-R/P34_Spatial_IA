@@ -5,6 +5,7 @@ class Route:
 
     def __init__(self, graph):
         noeuLu = Graph.Graph.matrice_od
+        print("noeuLu = {}\n".format(noeuLu))
         noeuAct = noeuLu.iat[0, 0]
         self.ordre = [noeuAct]
         while noeuLu:
@@ -13,7 +14,7 @@ class Route:
             self.ordre.append(noeuAct)
 
     def __repr__(self):
-            return "<Route : taille = {}>".format(len(self.ordre))
+        return "<Route : taille = {}>".format(len(self.ordre))
 
     def __str__(self):
         return self.ordre
@@ -68,6 +69,8 @@ if __name__ == "__main__":
     ht = 20
     nb = 5
     gt = Graph.Graph(nb, lt, ht)
+    print(gt)
+
     rt = Route(gt)
 
     print("route = {}\n".format(rt))
