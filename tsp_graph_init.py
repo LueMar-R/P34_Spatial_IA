@@ -25,7 +25,6 @@ class Graph:
         self.matrice_od = self.calcul_matrice_cout_od()
         self.ordre_aleatoire = Route.def_ordre(self.NB_LIEUX)
         self.distance = Route.calcul_distance_route(self.ordre_aleatoire, self.matrice_od)
-        print("lalala", self.distance)
 
 
     def creer_liste_lieux(self):
