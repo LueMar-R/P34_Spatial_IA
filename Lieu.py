@@ -16,23 +16,20 @@ class Lieu:
     
     def distance(self, b):
         """fonction de calcul de distance euclidienne entre 2 lieux."""
-        ((self.x - b.x)**2 + (self.y - b.y)**2)**0.5
+        return ((self.x - b.x)**2 + (self.y - b.y)**2)**0.5
 
 if __name__ == "__main__":
     import random
-    from matplotlib import pyplot as plt
 
     xt1 = random.randint(-20, 20)
     yt1 = random.randint(-20, 20)
     pt1 = Lieu(xt1, yt1)
-    plt.plot(pt1.x, pt1.y, marker="o", color="blue")
     print(pt1)
     
     xt2 = random.randint(-20, 20)
     yt2 = random.randint(-20, 20)
     pt2 = Lieu(xt2, yt2)
-    plt.plot(pt1.x, pt1.y, marker="o", color="red")
     print(pt2)
 
-    
-    plt.show()
+    print(pt1 == pt2)
+    print(pt1.distance(pt2))

@@ -29,7 +29,7 @@ class Graph:
             for j in self.liste_lieux:
                 Graph.matrice_od.append({'LieuA' : i, 'LieuB' : j, 'Distance' : i.distance(j) })
 
-    def plus_proche_voisin(self, L, reste = Graph.matrice_od):
+    def plus_proche_voisin(self, L, reste = matrice_od):
         """renvoyer le plus proche voisin d'un lieu"""
         voisins = reste[reste['LieuA'] != L]
         ligne_proche = voisins[voisins['Distance'] == voisins['Distance'].min()]
@@ -44,8 +44,6 @@ class Graph:
         df.to_csv(fichier)
 
 if __name__ == "__main__":
-    from matplotlib import pyplot as plt
-
     lt = 20
     ht = 20
     nb = 5
