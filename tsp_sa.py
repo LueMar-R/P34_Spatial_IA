@@ -11,17 +11,25 @@ random.seed(42)
 class TSP_SA:
 
     def __init__(self, largeur, hauteur, nb_lieux):
+
+        self.N = nb_lieux
+        self.T0 = 1
+        self.Tf = 0.01
+        self.tau = 1000
+        self.kmax = 100
+
         self.graphe = Graph(largeur, hauteur, nb_lieux)
         self.chemin_zero = self.heuristique()
         self.distance_zero = Route.calcul_distance_route(self.chemin_zero, self.graphe.matrice_od)
-        self.chemin_2opt = self.two_opt(self.chemin_zero)
-        self.distance_2opt = Route.calcul_distance_route(self.chemin_2opt, self.graphe.matrice_od)
+        # self.chemin_2opt = self.two_opt(self.chemin_zero)
+        # self.distance_2opt = Route.calcul_distance_route(self.chemin_2opt, self.graphe.matrice_od)
+        self.chemin_SA = self.recuit_simule()
+        self.distance_SA = Route.calcul_distance_route(self.chemin_SA, self.graphe.matrice_od)      
 
 
     def heuristique(self):
 
         local_matrix = self.graphe.matrice_od.copy()
-        local_places_list = self.graphe.liste_lieux
         points_a_explorer = list(range(1,self.graphe.NB_LIEUX))
         route_courte = [0]
         while points_a_explorer:
@@ -57,7 +65,6 @@ class TSP_SA:
                         print("ACCEPTED")
                     else :
                         print("REJECTED")
-
             trajet = best
             print("NEW BEST ORDER :", trajet)
         return best
@@ -70,27 +77,41 @@ class TSP_SA:
         return self.route
 
     def recuit_simule(self):
-        #constantes
-        N = self.graphe.NB_LIEUX
-        T0 = 10.0
-        Tf = 0.01
-        tau = 0.0001
-
         #initialisation des variables
-        trajet = self.chemin_zero.copy()
-        best = trajet.copy()
-        cheapest = self.distance_zero
-        better = True
+        T = self.T0
+        trajet1 = self.chemin_zero.copy()
+        cost1 = self.distance_zero
 
-        while better:
-            i = random.ranint(0,N-1)
-            j = random.randint(0,N-1)
+        print("BEST", trajet1)
+        print("CHEAPEST", cost1)
+        k=0
+        while T>self.Tf and k<self.kmax:
+            i = random.randint(0,self.N-1)
+            j = random.randint(0,self.N-1)
             if j-i == 1: 
                 continue
-            trajet2 = permutation(i, j, trajet)
-
-
-
+            trajet2 = self.permutation(i, j, trajet1)
+            cost2 = Route.calcul_distance_route(trajet2, self.graphe.matrice_od)
+            deltaD = cost1 - cost2
+            print("NEW ORDER TRY", trajet2)
+            print("THIS COSTS", cost2)
+            if cost2 < cost1:
+                trajet1 = trajet2
+                cost1 = cost2
+                #T = T0*np.exp(-T/tau)
+                print("ACCEPTED")
+            else :
+                if np.random.uniform() > np.exp(-deltaD/T):
+                    trajet1 = trajet2
+                    cost1 = cost2
+                    print("ACCEPTED (metropolis)")
+                else :
+                    trajet2 = trajet1
+                    print("REJECTED")
+            k+=1
+            T = self.T0*np.exp(-T/self.tau)
+            print(">> tempetature :", T, "- (T0, TF)=", self.T0, self.Tf)
+        return trajet1
 
 
 
@@ -103,8 +124,10 @@ def test(l, h, np):
     
     print("**route de départ**\t", algo.chemin_zero)
     print("**distance zéro**", algo.distance_zero)
-    print("**route 2opt**\t\t", algo.chemin_2opt)
-    print("**distance 2opt**", algo.distance_2opt)
+    # print("**route 2opt**\t\t", algo.chemin_2opt)
+    # print("**distance 2opt**", algo.distance_2opt)
+    print("**route SA**\t\t", algo.chemin_SA)
+    print("**distance SA**", algo.distance_SA)
     print("**temps de calcul (s)**", time.time()-a)
 
 test(10000,10000,100)
