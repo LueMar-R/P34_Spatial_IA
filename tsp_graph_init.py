@@ -3,6 +3,7 @@ import random
 import time
 import pandas as pd
 
+random.seed(42)
 
 class Lieu:
 

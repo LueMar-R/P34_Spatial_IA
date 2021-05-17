@@ -4,6 +4,9 @@ import random
 import time
 import pandas as pd
 from itertools import permutations
+import time
+
+random.seed(42)
 
 class TSP_SA:
 
@@ -59,30 +62,49 @@ class TSP_SA:
             print("NEW BEST ORDER :", trajet)
         return best
 
+    def permutation(self, i, j, trajet):
+        self.route = trajet
+        mini = min(i,j)
+        maxi = max(i,j)
+        self.route[mini:maxi] = self.route[mini:maxi].copy()[::-1]
+        return self.route
+
+    def recuit_simule(self):
+        #constantes
+        N = self.graphe.NB_LIEUX
+        T0 = 10.0
+        Tf = 0.01
+        tau = 0.0001
+
+        #initialisation des variables
+        trajet = self.chemin_zero.copy()
+        best = trajet.copy()
+        cheapest = self.distance_zero
+        better = True
+
+        while better:
+            i = random.ranint(0,N-1)
+            j = random.randint(0,N-1)
+            if j-i == 1: 
+                continue
+            trajet2 = permutation(i, j, trajet)
 
 
-    
-    # def recuit_simule(self):
-    #     #constantes
-    #     N = self.graphe.NB_LIEUX
-    #     T0 = 10.0
-    #     Tf = 0.01
-    #     tau = 0.0001
 
-    #     #initialisation des variables
-    #     trajet = self.chemin_zero.copy()
-    #     distance = self.distance_zero
+
+
 
 
 
 
 def test(l, h, np):
+    a=time.time()
     algo = TSP_SA(l, h, np)
     
     print("**route de départ**\t", algo.chemin_zero)
     print("**distance zéro**", algo.distance_zero)
     print("**route 2opt**\t\t", algo.chemin_2opt)
     print("**distance 2opt**", algo.distance_2opt)
+    print("**temps de calcul (s)**", time.time()-a)
 
-
-test(100,100,12)
+test(10000,10000,100)
