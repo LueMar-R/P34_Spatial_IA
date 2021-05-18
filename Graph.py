@@ -25,7 +25,7 @@ class Graph:
         return "<Graph : nombre de lieu = {}, largeur = {}, hauteur = {}>".format(self.NB_LIEUX, self.LARGEUR, self.HAUTEUR)
 
     def __str__(self):
-        return "Graph : Nombre de lieu = {}, Largeur = {}, Hauteur = {}\n{}".format(self.NB_LIEUX, self.LARGEUR, self.HAUTEUR, self.liste_lieux)
+        return "Graph : Nombre de lieu = {}, Largeur = {}, Hauteur = {}, Liste = {}".format(self.NB_LIEUX, self.LARGEUR, self.HAUTEUR, self.liste_lieux)
     
     def calcul_matrice_cout_od(self):
         """calculer une matrice de distances entre chaque lieu du graphe"""
