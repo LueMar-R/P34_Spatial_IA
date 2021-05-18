@@ -104,8 +104,7 @@ class TSP_SA:
             k+=1
             T = T*np.exp(-T/self.tau)           
             trajet1 = best
-            print(k, "k", np.round(T,2), "°")
-            print("THIS COSTS", cost2)
+            print(k, "k", np.round(T,2), "°     THIS COSTS", cost2)
         return best
 
     def permutation(self, i, j, trajet):
@@ -114,22 +113,14 @@ class TSP_SA:
         maxi = max(i,j)
         self.route[mini:maxi] = self.route[mini:maxi].copy()[::-1]
         return self.route
-    
-    def perm_two_opt(self, i, j, trajet):
-        trajet2 = trajet[:]
-        trajet2[i:j] = trajet[j-1:i-1:-1]
-        return trajet2
-
 
     def recuit_simule(self):
         #initialisation des variables
         T = self.T0
-
         best = self.chemin_zero.copy()
         cheapest = self.distance_zero
         trajet1 = self.chemin_zero.copy()
         cost1 = self.distance_zero
-
         k=0
         while T>self.Tf and k<self.kmax:
             i = random.randint(1,self.N)
@@ -138,13 +129,13 @@ class TSP_SA:
                 continue
             trajet2 = self.permutation(i, j, trajet1)
             cost2 = Route.calcul_distance_route(trajet2, self.graphe.matrice_od)
-            print("NEW ORDER TRY", trajet2)
-            print("    THIS COSTS", cost2)
+            print("NEW ORDER TRY", trajet2, "    THIS COSTS", cost2)
             if cost2 < cheapest:
                 best = trajet2[:]
                 trajet1 = trajet2[:]
                 cheapest = cost1 = cost2
                 print("    BEST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                x=input("continue?")
             else :
                 if cost2 < cost1:
                     trajet1 = trajet2[:]
