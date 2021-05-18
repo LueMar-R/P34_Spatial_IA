@@ -5,19 +5,36 @@ class Route:
 
     def __init__(self, graph):
         noeuLu = Graph.Graph.matrice_od
-        print("noeuLu = {}\n".format(noeuLu))
-        noeuAct = noeuLu.iat[0, 0]
-        self.ordre = [noeuAct]
-        while noeuLu:
-            noeuAct = graph.plus_proche_voisin(noeuAct, noeuLu)
-            noeuLu = noeuLu[noeuLu['LieuA'] != noeuAct]
-            self.ordre.append(noeuAct)
+        noeuA = noeuLu.iat[0, 0]
+        self.ordre = [noeuA]
+        while not(noeuLu.empty):
+            # print("noeuAct ={}".format(noeuAct))
+            # print("noeuLu =\n{}\n".format(noeuLu))
+            noeuB = graph.plus_proche_voisin(noeuA, noeuLu)
+            noeuLu = noeuLu[noeuLu['LieuA'] != noeuA]
+            noeuLu = noeuLu[noeuLu['LieuB'] != noeuA]
+            self.ordre.append(noeuB)
+            noeuA = noeuB
 
     def __repr__(self):
         return "<Route : taille = {}>".format(len(self.ordre))
 
     def __str__(self):
-        return self.ordre
+        return "{}".format(self.ordre)
+
+    def calcul_distance_route(self):
+        i = 0
+        d = 0
+        for noeud in self.ordre:
+            if i == 0:
+                noeudA = noeud
+            else:
+                noeudB = noeud
+                d += noeudA.distance(noeudB)
+                noeudA = noeudB
+            i += 1
+        return d
+
     
 # # Cette fonction renvoie le plus court chemin dans le graphe passant par tous les nœuds.
 # def voyageurCommerce(graph, codeSource) :
@@ -69,8 +86,15 @@ if __name__ == "__main__":
     ht = 20
     nb = 5
     gt = Graph.Graph(nb, lt, ht)
-    print(gt)
+
+    print("graph =\n{}\n".format(gt))
+
+
+    gt.calcul_matrice_cout_od()
+
+    print("Matrice =\n{}\n".format(Graph.Graph.matrice_od))
 
     rt = Route(gt)
 
-    print("route = {}\n".format(rt))
+    print("route =\n{}\n".format(rt))
+    print("distance = {}\n".format(rt.calcul_distance_route()))

@@ -36,8 +36,13 @@ class Graph:
 
     def plus_proche_voisin(self, L, reste):
         """renvoyer le plus proche voisin d'un lieu"""
+        # print("fonction plus_proche_voisin")
+        # print("L ={}".format(L))
+        # print("reste =\n{}".format(reste))
         voisins = reste[reste['LieuA'] == L]
+        # print("voisins =\n{}".format(voisins))
         ligne_proche = voisins[voisins['Distance'] == voisins['Distance'].min()]
+        # print("ligne_proche =\n{}".format(ligne_proche))
         return ligne_proche.iat[0, 1]
     
     def charger_graph(self, fichier):
@@ -54,14 +59,14 @@ if __name__ == "__main__":
     nb = 5
     gt = Graph(nb, lt, ht)
 
-    print("graph = {}\n".format(gt))
+    print("graph =\n{}\n".format(gt))
 
 
     gt.calcul_matrice_cout_od()
 
-    print("Matrice = {}\n".format(Graph.matrice_od))
+    print("Matrice =\n{}\n".format(Graph.matrice_od))
     
 
     pt1 = Graph.matrice_od.iat[0, 0]
     pt2 = gt.plus_proche_voisin(pt1, Graph.matrice_od)
-    print("Le lieu de plus proche de {} est {}\n".format(pt1, pt2))
+    print("Le lieu le plus proche de {} est {}\n".format(pt1, pt2))
