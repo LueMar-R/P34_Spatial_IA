@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/home/lmaintier/miniconda3/envs/lpy36/bin/python"
+    "python.pythonPath": "/home/lmaintier/miniconda3/envs/lpy36/bin/python",
+    "jupyter.jupyterServerType": "local"
 }
