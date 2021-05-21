@@ -6,7 +6,7 @@ class Lieu:
         self.y = y
 
     def __repr__(self):
-        return "<Lieu : x = {}, y = {}>".format(self.x, self.y)
+        return "<({},{})>".format(self.x, self.y)
 
     def __str__(self):
         return "({},{})".format(self.x, self.y)
