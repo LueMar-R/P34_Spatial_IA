@@ -1,9 +1,9 @@
 import numpy as np
 import random
-import time
 import pandas as pd
 
-random.seed(42)
+random.seed(1)
+np.random.seed(1)
 
 class Lieu:
 
@@ -18,19 +18,29 @@ class Lieu:
 
 class Graph:
 
-    def __init__(self, largeur, hauteur, nb_lieux):
+    def __init__(self, largeur, hauteur, array_lieux, nb_lieux=10):
         self.LARGEUR = largeur
         self.HAUTEUR = hauteur
-        self.NB_LIEUX = nb_lieux
-        self.liste_lieux = self.creer_liste_lieux()
+        if np.any(array_lieux) :
+            self.liste_lieux = self.creer_liste_lieux(array_lieux)
+        else :
+            self.liste_lieux = self.creer_liste_lieux_aleatoire(nb_lieux)
+        self.NB_LIEUX = len(self.liste_lieux)
+        print("#####", self.NB_LIEUX)
         self.matrice_od = self.calcul_matrice_cout_od()
         self.ordre_aleatoire = Route.def_ordre(self.NB_LIEUX)
         self.distance = Route.calcul_distance_route(self.ordre_aleatoire, self.matrice_od)
 
+    def creer_liste_lieux(self, array):
+        liste_lieux=[]
+        for k in range(len(array)):
+            liste_lieux.append(Lieu(array[k,0], array[k,1]))
+        return liste_lieux
 
-    def creer_liste_lieux(self):
+
+    def creer_liste_lieux_aleatoire(self,nb_lieux):
         self.liste_lieux=[]
-        for i in range(self.NB_LIEUX):
+        for i in range(nb_lieux):
             x = random.uniform(0, self.LARGEUR)
             y = random.uniform(0, self.HAUTEUR)
             point = Lieu(x,y)

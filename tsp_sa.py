@@ -3,34 +3,35 @@ import numpy as np
 import random
 import time
 import pandas as pd
-import time
 
-random.seed(42)
+random.seed(1)
+np.random.seed(1)
 
 class TSP_SA:
 
-    def __init__(self, largeur, hauteur, nb_lieux):
+    def __init__(self, largeur, hauteur, liste_lieux=False, nb_lieux=10):
 
-        self.N = nb_lieux
-        self.T0 = 0.50
-        self.Tf = 0.25
-        self.tau = 500
-        self.kmax = min(nb_lieux*10, 4_000)
+        #self.N = len(liste_lieux)
 
-        self.graphe = Graph(largeur, hauteur, nb_lieux)
+
+        self.graphe = Graph(largeur, hauteur, liste_lieux, nb_lieux)
         self.chemin_zero = self.heuristique()
+        self.N = len(self.chemin_zero)-1
         #self.chemin_zero = list(range(nb_lieux))
         #random.shuffle(self.chemin_zero)
         self.distance_zero = Route.calcul_distance_route(self.chemin_zero, self.graphe.matrice_od)
-        a=time.time()
-        self.chemin_2opt = self.two_opt(self.chemin_zero)
-        self.distance_2opt = Route.calcul_distance_route(self.chemin_2opt, self.graphe.matrice_od)
-        self.time_2opt = time.time()-a
         b=time.time()
-        self.chemin_SA = self.SA_two_opt(self.chemin_zero)
+        self.chemin_SA = self.two_opt(self.chemin_zero)
         self.distance_SA = Route.calcul_distance_route(self.chemin_SA, self.graphe.matrice_od)
-        self.time_SA = time.time()-b      
+        self.time_SA = time.time()-b 
 
+        # self.chemin_SA = self.SA_two_opt(self.chemin_zero)
+        # self.distance_SA = Route.calcul_distance_route(self.chemin_SA, self.graphe.matrice_od)
+        # self.time_SA = time.time()-b      
+        self.T0 = 0.50
+        self.Tf = 0.25
+        self.tau = 500
+        self.kmax = min(self.N*10, 4_000)
 
     def heuristique(self):
         local_matrix = self.graphe.matrice_od.copy()
@@ -159,17 +160,17 @@ class TSP_SA:
 
 
 
-def test(l, h, npoints):
-    a=time.time()
-    algo = TSP_SA(l, h, npoints)
+# def test(l, h, npoints):
+#     a=time.time()
+#     algo = TSP_SA(l, h, npoints)
     
-    print("**route de départ**\t", algo.chemin_zero)
-    print("**distance zéro**", algo.distance_zero)
-    print("**route 2opt**\t\t", algo.chemin_2opt)
-    print("**distance 2opt**", algo.distance_2opt)
-    print("**temps de calcul 2opt**", np.round(algo.time_2opt), "s")
-    print("**route SA**\t\t", algo.chemin_SA)
-    print("**distance SA**", algo.distance_SA)
-    print("**temps de calcul SA**", np.round(algo.time_SA,2), "s")
+#     print("**route de départ**\t", algo.chemin_zero)
+#     print("**distance zéro**", algo.distance_zero)
+#     print("**route 2opt**\t\t", algo.chemin_2opt)
+#     print("**distance 2opt**", algo.distance_2opt)
+#     print("**temps de calcul 2opt**", np.round(algo.time_2opt), "s")
+#     print("**route SA**\t\t", algo.chemin_SA)
+#     print("**distance SA**", algo.distance_SA)
+#     print("**temps de calcul SA**", np.round(algo.time_SA,2), "s")
 
-test(600,800,100)
+

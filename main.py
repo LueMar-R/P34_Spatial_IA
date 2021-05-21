@@ -1,34 +1,36 @@
+from tsp_graph_init import Graph, Lieu
+from tsp_sa import TSP_SA
 import numpy as np
-from itertools import permutations
+import random
+import time
+import pandas as pd
 
-le = list(range(55))
-le.append(0)
+random.seed(1)
+np.random.seed(1)
 
-je = [0] + list(list(permutations(le[1:-1]))[6]) + [0]
+LARGEUR = 800
+HAUTEUR = 600
 
+def test(l, h, array_lieux, nb_lieux=25):
+    """
+    Args:
+        l (int): largeur de l'espace
+        h (int): hauteur de l'espace
+        array_lieux (array or bool): Matrice des points à calculer. Si la valeur de 'array_lieu' est initialisée à 'False'\
+            le programme générera automatiquement une liste de lieux à partir du nombre de lieux spécifié pour 'nb_lieux'
+        nb_lieux (int, optional): Nombre de lieux à utiliser pour la génération de lieux aléatoires si `array_lieux` = `False`.\
+            Defaults to 25.
+    """
 
-# N = 8
-# tarj = je[1:je.index(N)-1] + je[je.index(N)+2:-1]
-# print(tarj)
-
-
-def perm_generator(lst):
-    if len(lst) == 1:
-        yield lst
-    else:
-        for i in range(len(lst)):
-            for perm in perm_generator(lst[:i] + lst[i+1:]):
-                yield [lst[i]] + perm
-
-
-my_generator = perm_generator(le)
-print(list(my_generator)[3])
-
-
-
-
+    algo = TSP_SA(l, h, array_lieux,nb_lieux)
+    
+    print("**route de départ**\t", algo.chemin_zero)
+    print("**distance zéro**", algo.distance_zero)
+    print("**route SA**\t\t", algo.chemin_SA)
+    print("**distance SA**", algo.distance_SA)
+    print("**temps de calcul **", np.round(algo.time_SA,3), "s")
 
 
+mat_lieux = Graph.charger_graph("graph_10.csv")
 
-# for i in trajet :
-#                 for j in trajet[1:trajet.index(i)-1] + trajet[trajet.index(i)+2:-1] :
+print(test(LARGEUR, HAUTEUR, array_lieux=False, nb_lieux=25))
