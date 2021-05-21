@@ -33,4 +33,6 @@ def test(l, h, array_lieux, nb_lieux=25):
 
 mat_lieux = Graph.charger_graph("graph_10.csv")
 
-print(test(LARGEUR, HAUTEUR, array_lieux=False, nb_lieux=25))
+
+
+print(test(LARGEUR, HAUTEUR, array_lieux=False, nb_lieux=50))

@@ -62,8 +62,7 @@ class TSP_SA:
                         continue
                     trajet2 = trajet1[:]
                     trajet2[i:j] = trajet1[j-1:i-1:-1]
-                    #print("NEW ORDER TRY", trajet2)
-                    #print("THIS COSTS", Route.calcul_distance_route(trajet2, self.graphe.matrice_od))
+
                     if Route.calcul_distance_route(trajet2, self.graphe.matrice_od) < cheapest:
                         best = trajet2
                         cheapest = Route.calcul_distance_route(best, self.graphe.matrice_od)
