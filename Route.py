@@ -3,18 +3,9 @@ import Graph
 class Route:
     """Cette classe sert à générer une route traversant tous les lieux d'un graph."""
 
-    def __init__(self, graph):
-        noeuLu = Graph.Graph.matrice_od
-        noeuA = noeuLu.iat[0, 0]
-        self.ordre = [noeuA]
-        while not(noeuLu.empty):
-            # print("noeuAct ={}".format(noeuAct))
-            # print("noeuLu =\n{}\n".format(noeuLu))
-            noeuB = graph.plus_proche_voisin(noeuA, noeuLu)
-            noeuLu = noeuLu[noeuLu['LieuA'] != noeuA]
-            noeuLu = noeuLu[noeuLu['LieuB'] != noeuA]
-            self.ordre.append(noeuB)
-            noeuA = noeuB
+    def __init__(self, *lieux):
+        print(type(lieux))
+        self.ordre = list(lieux) + [lieux[0]]
 
     def __repr__(self):
         return "<Route : taille = {}>".format(len(self.ordre))
@@ -94,7 +85,7 @@ if __name__ == "__main__":
 
     print("Matrice =\n{}\n".format(Graph.Graph.matrice_od))
 
-    rt = Route(gt)
+    rt = Route(list(gt.liste_lieux))
 
     print("route =\n{}\n".format(rt))
     print("distance = {}\n".format(rt.calcul_distance_route()))
